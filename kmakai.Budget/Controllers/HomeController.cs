@@ -1,4 +1,5 @@
-﻿using kmakai.Budget.Models;
+﻿using kmakai.Budget.Context;
+using kmakai.Budget.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,10 +8,13 @@ namespace kmakai.Budget.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly BudgetContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, BudgetContext context)
         {
             _logger = logger;
+            _context = context;
+
         }
 
         public IActionResult Index()
