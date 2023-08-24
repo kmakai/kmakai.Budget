@@ -1,4 +1,28 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿const editCategoryBtns = document.querySelectorAll('#EditCategoryBtn');
 
-// Write your JavaScript code.
+if (editCategoryBtns) {
+    editCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const categoryId = btn.getAttribute('data-id');
+            const categoryName = btn.getAttribute('data-name');
+
+            console.log(categoryId, categoryName)
+
+            document.querySelector('#AddCategoryForm #AddCategory_Id').value = categoryId;
+            document.querySelector('#AddCategoryForm #AddCategory_Name').value = categoryName;
+
+        });
+    });
+};
+
+const deleteCategoryBtns = document.querySelectorAll('#DeleteCategoryBtn');
+
+if (deleteCategoryBtns) {
+    deleteCategoryBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const categoryId = btn.getAttribute('data-id');
+
+            document.querySelector('#DeleteCategoryForm #DeleteCategoryId').value = categoryId;
+        })
+    });
+}

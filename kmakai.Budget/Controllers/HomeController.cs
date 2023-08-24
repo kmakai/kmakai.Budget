@@ -1,5 +1,6 @@
 ﻿using kmakai.Budget.Context;
 using kmakai.Budget.Models;
+using kmakai.Budget.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,30 +8,57 @@ namespace kmakai.Budget.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly BudgetContext _context;
+        private readonly CategoryController _categoryController;
+        private readonly TransactionController _transactionController;
 
-        public HomeController(ILogger<HomeController> logger, BudgetContext context)
+        public HomeController(CategoryController categoryController, TransactionController transactionController)
         {
-            _logger = logger;
-            _context = context;
-
+            _categoryController = categoryController;
+            _transactionController = transactionController;
         }
 
         public IActionResult Index()
         {
-            return View();
+
+            var viewModel = new HomeViewModel
+            {
+                Categories = _categoryController.GetCategories(),
+                Transactions = _transactionController.GetTransactions(),
+                TransactionTypes = _transactionController.GetTransactionTypes()
+
+            };
+
+            return View(viewModel);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult AddCategory(AddCategoryViewModel addCategory)
         {
-            return View();
+            var category = new Category
+            {
+                Name = addCategory.Name
+            };
+
+            if (addCategory.Id != 0)
+            {
+                category.Id = addCategory.Id;
+                _categoryController.UpdateCategory(category);
+            }
+            else
+            {
+                _categoryController.AddCategory(category);
+            }
+
+            return RedirectToAction("Index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult DeleteCategory(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            _categoryController.DeleteCategory(id);
+            return RedirectToAction("Index");
         }
+
+
+
     }
 }

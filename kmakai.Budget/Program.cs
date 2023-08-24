@@ -1,4 +1,6 @@
 using kmakai.Budget.Context;
+using kmakai.Budget.Controllers;
+using kmakai.Budget.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BudgetContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultCOnnection")));
+
+builder.Services.AddScoped<IRepository, BudgetAppRepository>();
+builder.Services.AddScoped<CategoryController>();
+builder.Services.AddScoped<TransactionController>();
 
 var app = builder.Build();
 
