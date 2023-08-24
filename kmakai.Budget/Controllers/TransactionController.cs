@@ -22,4 +22,14 @@ public class TransactionController : Controller
     {
         return _repository.GetTransactionTypes();
     }
+
+    public void AddTransaction(Transaction transaction)
+    {
+        _repository.AddTransaction(transaction);
+    }
+
+    public void UpdateTransaction(Transaction transaction)
+    {
+        _repository.UpdateTransaction(transaction);
+    }
 }

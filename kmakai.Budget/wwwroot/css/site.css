@@ -28,3 +28,7 @@ color: red;
 .Income {
 color: green;
 }
+
+.hidden{
+display: none;
+}

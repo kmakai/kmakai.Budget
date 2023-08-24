@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -9,34 +10,44 @@
             <button class="nav-link active fw-bold" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab" aria-controls="transactions" aria-selected="true">Transactions</button>
             <button class="nav-link fw-bold" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false">Categories</button>
         </div>
+
     </nav>
     @* tab contents *@
     <div class="tab-content border p-2 border-top-0" id="nav-tabContent">
 
         <div class="tab-pane fade show active" id="transactions" role="tabpanel" aria-labelledby="transactions-tab" tabindex="0" aria-selected="true">
-            <button type="button" class="btn btn-outline-success open-addTransaction px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#AddTransactionModal"><i class="bi bi-plus-lg"></i> New</button>
+            <div class="d-flex px-2 justify-content-between fst-normal fs-6">
+                <span class="Balance">Balance: $@Model.Balance.Balance</span>
+                <div>
+                    <span class="Income me-2">Income: $@Model.Balance.Income</span>
+                    <span class="Expense">Expenses: $@Model.Balance.Expense</span>
+                </div>
+               
+            </div>
+            <button type="button" class="btn btn-outline-success open-addTransaction px-4 fw-bold ms-2" data-bs-toggle="modal" data-bs-target="#AddTransactionModal"><i class="bi bi-plus-lg"></i> New</button>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Amount</th>
                         <th>
-                            <span class="Expense">Expeses: $500</span>
-                            <span class="Income ms-3">Income: $500</span>
+                           
                         </th>
+                        <th>
+                           
+                        </th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var transaction in Model.Transactions)
                     {
                         <tr>
-                            <td>@transaction.Date</td>
-                            <td>@transaction.Category.Name</td>
-                            <td class="@transaction.TransactionType.Name">$@transaction.Amount</td>
+                            <td>@transaction.Date.ToShortDateString()</td>
+                            <td>@transaction.Name - @transaction.Category.Name</td>
+                            <td class="@transaction.TransactionType.Name">@(@transaction.TransactionType.Id == 2 ? "-" : "+") $@transaction.Amount</td>
 
-                            <td>
-                                <button type="button" class="btn btn-primary open-editTransaction" data-bs-toggle="modal" data-bs-target="#AddTransactionModal" data-id="@transaction.Id" data-date="@transaction.Date" data-category="@transaction.CategoryId" data-amount="@transaction.Amount" id="EditTransactionBtn"><i class="bi bi-pencil-square"></i> edit</button>
+                            <td class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary open-editTransaction" data-bs-toggle="modal" data-bs-target="#AddTransactionModal" data-name="@transaction.Name" data-id="@transaction.Id" data-transactionType="@transaction.TransactionType.Id" data-date="@transaction.Date" data-category="@transaction.CategoryId" data-amount="@transaction.Amount" id="EditTransactionBtn"><i class="bi bi-pencil-square"></i> edit</button>
                                 |
                                 <button type="button" class="btn btn-danger open-deleteTransaction" data-bs-toggle="modal" data-bs-target="#DeleteTransactionModal" data-id="@transaction.Id" id="DeleteTransactionBtn"><i class="bi bi-trash"></i> delete</button>
                             </td>
@@ -46,7 +57,7 @@
             </table>
         </div>
         <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab" tabindex="0" aria-selected="false">
-            <button type="button" class="btn btn-outline-success open-addCategory px-4" data-bs-toggle="modal" data-bs-target="#AddCategoryModal"><i class="bi bi-plus-lg"></i> add</button>
+            <button type="button" class="btn btn-outline-success open-addCategory px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#AddCategoryModal"><i class="bi bi-plus-lg"></i> add</button>
             <table>
                 <thead>
                     <tr>
@@ -82,5 +93,11 @@
 <div id="DeleteCategoryModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <partial name="_DeleteCategory" />
+    </div>
+</div>
+
+<div id="AddTransactionModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <partial name="_AddTransaction" />
     </div>
 </div>

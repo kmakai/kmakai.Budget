@@ -1,4 +1,6 @@
-﻿namespace kmakai.Budget.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace kmakai.Budget.Models;
 
 public class TransactionType
 {
@@ -10,6 +12,8 @@ public class TransactionType
 }
 public enum TypeName
 {
+    [Display(Name = "Income")]
     Income,
+    [Display(Name = "Expense")]
     Expense
 }
