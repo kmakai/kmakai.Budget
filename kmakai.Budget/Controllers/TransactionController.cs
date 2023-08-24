@@ -32,4 +32,9 @@ public class TransactionController : Controller
     {
         _repository.UpdateTransaction(transaction);
     }
+
+    public void DeleteTransaction(int id)
+    {
+        _repository.DeleteTransaction(id);
+    }
 }

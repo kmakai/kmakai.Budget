@@ -79,3 +79,15 @@ typeSelect.addEventListener('change', () => {
         document.querySelector('#AddTransactionForm-category-input').value = '';
     }
 });
+
+const deleteTransactionBtns = document.querySelectorAll('#DeleteTransactionBtn');
+
+if (deleteTransactionBtns) {
+    deleteTransactionBtns.forEach(btn => {
+btn.addEventListener("click", () => {
+            const transactionId = btn.getAttribute('data-id');
+
+            document.querySelector('#DeleteTransactionForm #DeleteTransactionId').value = transactionId;
+        })
+    });
+}

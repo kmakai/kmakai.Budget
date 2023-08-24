@@ -90,5 +90,9 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-
+    public IActionResult DeleteTransaction(int id)
+    {
+        _transactionController.DeleteTransaction(id);
+        return RedirectToAction("Index");
+    }
 }
