@@ -15,13 +15,13 @@ public class HomeController : Controller
         _transactionController = transactionController;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(HomeViewModel? model)
     {
 
         var viewModel = new HomeViewModel
         {
             Categories = _categoryController.GetCategories(),
-            Transactions = _transactionController.GetTransactions().OrderByDescending(t => t.Date),
+            Transactions = Filter(model).OrderByDescending(t => t.Date),
             TransactionTypes = _transactionController.GetTransactionTypes(),
             Balance = new BalanceViewModel
             {
@@ -92,6 +92,41 @@ public class HomeController : Controller
     {
         _transactionController.DeleteTransaction(id);
         return RedirectToAction("Index");
+    }
+
+
+    private List<Transaction> Filter(HomeViewModel? model)
+    {
+        var transactions = _transactionController.GetTransactions();
+
+        if (model.FilterParams == null)
+        {
+            return transactions.ToList();
+        }
+
+        if (model.FilterParams.CategoryId != 0 && model.FilterParams.StartDate == null)
+        {
+            transactions = transactions.Where(t => t.CategoryId == model.FilterParams.CategoryId).ToList();
+        }
+
+        if (model.FilterParams.CategoryId == 0 && model.FilterParams.StartDate != null && model.FilterParams.EndDate == null)
+        {
+            transactions = transactions.Where(t => t.Date >= model.FilterParams.StartDate).ToList();
+        }
+
+        if (model.FilterParams.CategoryId == 0 && model.FilterParams.StartDate != null && model.FilterParams.EndDate != null)
+        {
+            transactions = transactions.Where(t => t.Date >= model.FilterParams.StartDate
+            && t.Date <= model.FilterParams.EndDate).ToList();
+        }
+
+        if (model.FilterParams.CategoryId != 0 && model.FilterParams.StartDate != null)
+        {
+            transactions = transactions.Where(t => t.CategoryId == model.FilterParams.CategoryId
+            && t.Date >= model.FilterParams.StartDate && t.Date <= model.FilterParams.EndDate).ToList();
+        }
+
+        return transactions;
     }
 
 }

@@ -113,22 +113,33 @@ categoriesTabBtn.addEventListener('click', () => {
 
 
 window.addEventListener('load', () => {
-    const activeTab = localStorage.getItem('activeTab');
+    setTimeout(() => {
+        const activeTab = localStorage.getItem('activeTab');
+        console.log(activeTab);
 
+        if (activeTab == null) {
+            transactionsTabBtn.classList.add('active');
+            transactionsTab.classList.add('show', 'active');
+        }
 
-    if (activeTab == "transactions") {
-        transactionsTabBtn.classList.add('active');
-        transactionsTab.classList.add('show', 'active');
+        if (activeTab == "transactions") {
+            transactionsTabBtn.classList.add('active');
+            transactionsTab.classList.add('show', 'active');
 
-        categoriesTabBtn.classList.remove('active');
-        categoriesTab.classList.remove('show', 'active');
-    } else {
-        categoriesTabBtn.classList.add('active');
-        categoriesTab.classList.add('show', 'active');
+            categoriesTabBtn.classList.remove('active');
+            categoriesTab.classList.remove('show', 'active');
+        } else if (activeTab == "categories") {
+            categoriesTabBtn.classList.add('active');
+            categoriesTab.classList.add('show', 'active');
 
-        transactionsTabBtn.classList.remove('active');
-        transactionsTab.classList.remove('show', 'active');
-    }
+            transactionsTabBtn.classList.remove('active');
+            transactionsTab.classList.remove('show', 'active');
+        } else {
+            transactionsTabBtn.classList.add('active');
+            transactionsTab.classList.add('show', 'active');
+        }
+    }, 100)
+
 
 });
 

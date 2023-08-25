@@ -7,7 +7,7 @@
     @* Tabs *@
     <nav>
         <div class="nav nav-tabs fs-6" id="nav-tabs" role="tablist">
-            <button class="nav-link active fw-bold" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab" aria-controls="transactions" aria-selected="true">Transactions</button>
+            <button class="nav-link fw-bold" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab" aria-controls="transactions" aria-selected="true">Transactions</button>
             <button class="nav-link fw-bold" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="categories" aria-selected="false">Categories</button>
         </div>
 
@@ -15,24 +15,27 @@
     @* tab contents *@
     <div class="tab-content border p-2 border-top-0" id="nav-tabContent">
 
-        <div class="tab-pane fade show active" id="transactions" role="tabpanel" aria-labelledby="transactions-tab" tabindex="0" aria-selected="true">
+        <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab" tabindex="0" aria-selected="true">
             <div class="d-flex px-2 justify-content-between fst-normal fs-6">
                 <span class="Balance">Balance: $@Model.Balance.Balance</span>
                 <div>
                     <span class="Income me-2">Income: $@Model.Balance.Income</span>
                     <span class="Expense">Expenses: $@Model.Balance.Expense</span>
                 </div>
-               
+
             </div>
             <button type="button" class="btn btn-outline-success open-addTransaction px-4 fw-bold ms-2" data-bs-toggle="modal" data-bs-target="#AddTransactionModal"><i class="bi bi-plus-lg"></i> New</button>
+            <div class="row my-2">
+                <partial name="_FilterForm" />
+            </div>
             <table class="table">
                 <thead>
                     <tr>
                         <th>
-                           
+
                         </th>
                         <th>
-                           
+
                         </th>
                         <th></th>
                         <th></th>
@@ -106,3 +109,4 @@
     <div class="modal-dialog" role="document">
         <partial name="_DeleteTransaction" />
     </div>
+</div>

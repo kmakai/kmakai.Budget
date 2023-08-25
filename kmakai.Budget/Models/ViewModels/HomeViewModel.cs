@@ -6,6 +6,7 @@ public class HomeViewModel
     public IEnumerable<Transaction> Transactions { get; set; } = new List<Transaction>();
     public IEnumerable<Category> Categories { get; set; } = new List<Category>();
     public IEnumerable<TransactionType> TransactionTypes { get; set; } = new List<TransactionType>();
+    public FilterParamsViewModel FilterParams { get; set; } = new FilterParamsViewModel();
 
     public AddCategoryViewModel AddCategory { get; set; } = new AddCategoryViewModel();
     public AddTransactionViewModel AddTransaction { get; set; } = new AddTransactionViewModel();
