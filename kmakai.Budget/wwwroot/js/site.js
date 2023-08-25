@@ -7,14 +7,21 @@ if (editCategoryBtns) {
             const categoryId = btn.getAttribute('data-id');
             const categoryName = btn.getAttribute('data-name');
 
-            console.log(categoryId, categoryName)
-
             document.querySelector('#AddCategoryForm #AddCategory_Id').value = categoryId;
             document.querySelector('#AddCategoryForm #AddCategory_Name').value = categoryName;
 
         });
     });
 };
+
+
+const addCategoryBtn = document.querySelector('.open-addCategory');
+addCategoryBtn.addEventListener('click', () => {
+    document.querySelector('#AddCategoryForm #AddCategory_Id').value = 0;
+    document.querySelector('#AddCategoryForm #AddCategory_Name').value = '';
+    document.querySelector('#AddCategoryForm #AddCategory_Name').classList.remove('is-invalid');
+    document.querySelector('#AddCategoryForm #AddCategoryBtn').disabled = false;
+});
 
 const deleteCategoryBtns = document.querySelectorAll('#DeleteCategoryBtn');
 
@@ -41,15 +48,13 @@ if (editTransactionBtns) {
             const transactionCategory = btn.getAttribute('data-category');
 
             const addTransactionForm = document.querySelector('#AddTransactionForm');
-            console.log(transactionId)
 
             addTransactionForm.querySelector('#AddTransaction_Id').value = transactionId;
             addTransactionForm.querySelector('#AddTransaction_Name').value = transactionName;
             addTransactionForm.querySelector('#AddTransaction_Amount').value = +transactionAmount;
-            addTransactionForm.querySelector('#AddTransactionForm-type-input').value = transactionType;
-            addTransactionForm.querySelector('#AddTransactionForm-category-input').value = transactionCategory;
+            addTransactionForm.querySelector('.AddTransactionForm-type-input').value = transactionType;
+            addTransactionForm.querySelector('.AddTransactionForm-category-input').value = transactionCategory;
             addTransactionForm.querySelector('#AddTransaction_Date').value = new Date(transactionDate).toISOString().substring(0, 10);
-            console.log(new Date(transactionDate).toISOString())
         });
     });
 }
@@ -62,21 +67,20 @@ addTransactionBtn.addEventListener('click', () => {
     addTransactionForm.querySelector('#AddTransaction_Id').value = 0;
     addTransactionForm.querySelector('#AddTransaction_Name').value = '';
     addTransactionForm.querySelector('#AddTransaction_Amount').value = 0.00;
-    addTransactionForm.querySelector('#AddTransactionForm-type-input').value = '';
-    addTransactionForm.querySelector('#AddTransactionForm-category-input').value = '';
+    addTransactionForm.querySelector('.AddTransactionForm-type-input').value = '';
+    addTransactionForm.querySelector('.AddTransactionForm-category-input').value = '';
     addTransactionForm.querySelector('#AddTransaction_Date').value = '';
 });
 
-const typeSelect = document.querySelector('#AddTransactionForm-type-input');
+const typeSelect = document.querySelector('.AddTransactionForm-type-input');
 
 typeSelect.addEventListener('change', () => {
-    console.log(typeSelect.value, typeSelect.textContent);
     if (typeSelect.value == 1) {
-        document.querySelector('#AddTransactionForm-category-input').value = 7;
-        document.querySelector('#AddTransactionForm-category-input').classList.add("hidden");
+        document.querySelector('.AddTransactionForm-category-input').value = 7;
+        document.querySelector('.AddTransactionForm-category-input').classList.add("hidden");
     } else {
-        document.querySelector('#AddTransactionForm-category-input').classList.remove("hidden");
-        document.querySelector('#AddTransactionForm-category-input').value = '';
+        document.querySelector('.AddTransactionForm-category-input').classList.remove("hidden");
+        document.querySelector('.AddTransactionForm-category-input').value = '';
     }
 });
 
@@ -84,10 +88,68 @@ const deleteTransactionBtns = document.querySelectorAll('#DeleteTransactionBtn')
 
 if (deleteTransactionBtns) {
     deleteTransactionBtns.forEach(btn => {
-btn.addEventListener("click", () => {
+        btn.addEventListener("click", () => {
             const transactionId = btn.getAttribute('data-id');
 
             document.querySelector('#DeleteTransactionForm #DeleteTransactionId').value = transactionId;
         })
     });
 }
+
+const transactionsTabBtn = document.querySelector('#transactions-tab');
+const transactionsTab = document.querySelector('#transactions');
+
+const categoriesTabBtn = document.querySelector('#categories-tab');
+const categoriesTab = document.querySelector('#categories');
+
+
+transactionsTabBtn.addEventListener('click', () => {
+    localStorage.setItem('activeTab', 'transactions');
+});
+
+categoriesTabBtn.addEventListener('click', () => {
+    localStorage.setItem('activeTab', 'categories');
+});
+
+
+window.addEventListener('load', () => {
+    const activeTab = localStorage.getItem('activeTab');
+
+
+    if (activeTab == "transactions") {
+        transactionsTabBtn.classList.add('active');
+        transactionsTab.classList.add('show', 'active');
+
+        categoriesTabBtn.classList.remove('active');
+        categoriesTab.classList.remove('show', 'active');
+    } else {
+        categoriesTabBtn.classList.add('active');
+        categoriesTab.classList.add('show', 'active');
+
+        transactionsTabBtn.classList.remove('active');
+        transactionsTab.classList.remove('show', 'active');
+    }
+
+});
+
+const categories = [];
+
+editCategoryBtns.forEach(btn => {
+    categories.push(btn.getAttribute('data-name').toLocaleLowerCase());
+});
+
+
+const categoryInput = document.querySelector('#AddCategory_Name');
+
+categoryInput.addEventListener('input', (e) => {
+    if (e.target.value != "" && categories.includes(e.target.value.toLocaleLowerCase())) {
+        document.querySelector('#AddCategoryForm #AddCategory_Name').classList.add('is-invalid');
+        document.querySelector('#AddCategoryForm #AddCategoryBtn').disabled = true;
+        document.querySelector('#AddCategoryForm #AddCategory_Name').focus();
+        document.querySelector(".category-name-validator").insertAdjacentHTML("beforebegin", '<span id="category-exist-error" class="text-danger">The Category already exists!.</span>');
+    } else {
+        document.querySelector('#AddCategoryForm #AddCategory_Name').classList.remove('is-invalid');
+        document.querySelector('#AddCategoryForm #AddCategoryBtn').disabled = false;
+        document.querySelector('#category-exist-error').remove();
+    }
+})

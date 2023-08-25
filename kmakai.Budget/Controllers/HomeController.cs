@@ -1,9 +1,6 @@
-﻿using kmakai.Budget.Context;
-using kmakai.Budget.Models;
+﻿using kmakai.Budget.Models;
 using kmakai.Budget.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.Ini;
-using System.Diagnostics;
 
 namespace kmakai.Budget.Controllers;
 
@@ -40,6 +37,7 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult AddCategory(AddCategoryViewModel addCategory)
     {
+
         var category = new Category
         {
             Name = addCategory.Name
@@ -95,4 +93,5 @@ public class HomeController : Controller
         _transactionController.DeleteTransaction(id);
         return RedirectToAction("Index");
     }
+
 }

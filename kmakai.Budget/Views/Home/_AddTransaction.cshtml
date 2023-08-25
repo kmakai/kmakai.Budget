@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-floating mb-3" >
-                <select asp-for="AddTransaction.TransactionTypeId" class="form-control" id="AddTransactionForm-type-input">
+                <select asp-for="AddTransaction.TransactionTypeId" class="form-control AddTransactionForm-type-input" >
                     <option value="">-- Select Type --</option>
                     @foreach (var type in Model.TransactionTypes)
                     {
@@ -34,7 +34,7 @@
             </div>
 
             <div class="form-floating mb-3" >
-                <select asp-for="AddTransaction.CategoryId" class="form-control" id="AddTransactionForm-category-input">
+                <select asp-for="AddTransaction.CategoryId" class="form-control AddTransactionForm-category-input" >
                     <option value="">-- Select Category --</option>
                     @foreach (var category in Model.Categories)
                     {
