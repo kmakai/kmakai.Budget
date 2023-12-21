@@ -140,7 +140,6 @@ window.addEventListener('load', () => {
         }
     }, 100)
 
-
 });
 
 const categories = [];

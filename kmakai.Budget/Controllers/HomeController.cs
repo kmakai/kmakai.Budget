@@ -31,6 +31,8 @@ public class HomeController : Controller
 
         };
 
+       
+
         return View(viewModel);
     }
 
@@ -98,10 +100,12 @@ public class HomeController : Controller
     private List<Transaction> Filter(HomeViewModel? model)
     {
         var transactions = _transactionController.GetTransactions();
+        
+        var NoParams = model?.FilterParams.CategoryId == null && model?.FilterParams.StartDate == null && model?.FilterParams.EndDate == null;
 
-        if (model.FilterParams == null)
+        if (NoParams)
         {
-            return transactions.ToList();
+            return transactions;
         }
 
         if (model.FilterParams.CategoryId != 0 && model.FilterParams.StartDate == null)
@@ -126,6 +130,7 @@ public class HomeController : Controller
             && t.Date >= model.FilterParams.StartDate && t.Date <= model.FilterParams.EndDate).ToList();
         }
 
+        Console.WriteLine(transactions.ToList().Count + " all");
         return transactions;
     }
 
