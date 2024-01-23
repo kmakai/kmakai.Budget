@@ -8,8 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+var databaseUri = new Uri(Environment.GetEnvironmentVariable(variable: "DATABASE_URL"));
+
+string connectionString = $"Host={databaseUri.Host};Port={databaseUri.Port};Database={databaseUri.AbsolutePath.TrimStart('/')};Username={databaseUri.UserInfo.Split(':')[0]};Password={databaseUri.UserInfo.Split(':')[1]};SSL Mode=Require;Trust Server Certificate=true;";
+
+
 builder.Services.AddDbContext<BudgetContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultCOnnection")));
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<IRepository, BudgetAppRepository>();
 builder.Services.AddScoped<CategoryController>();
