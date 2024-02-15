@@ -8,10 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var databaseUri = new Uri(Environment.GetEnvironmentVariable(variable: "DATABASE_URL"));
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "postgresql://postgres:5g1b*Gc354egc-ECB-b3g1GEcc-2g-B4@viaduct.proxy.rlwy.net:21102/railway";
+
+var databaseUri = new Uri(databaseUrl);
+
 
 string connectionString = $"Host={databaseUri.Host};Port={databaseUri.Port};Database={databaseUri.AbsolutePath.TrimStart('/')};Username={databaseUri.UserInfo.Split(':')[0]};Password={databaseUri.UserInfo.Split(':')[1]};SSL Mode=Require;Trust Server Certificate=true;";
-
 
 builder.Services.AddDbContext<BudgetContext>(options =>
     options.UseNpgsql(connectionString));
@@ -19,6 +21,9 @@ builder.Services.AddDbContext<BudgetContext>(options =>
 builder.Services.AddScoped<IRepository, BudgetAppRepository>();
 builder.Services.AddScoped<CategoryController>();
 builder.Services.AddScoped<TransactionController>();
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 

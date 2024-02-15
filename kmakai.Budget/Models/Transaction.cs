@@ -15,9 +15,9 @@ public class Transaction
 
     public TransactionType TransactionType { get; set; } = null!;
 
-    [DataType(DataType.Date)]
+    //[DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true )]
-    public DateTime Date { get; set; }
+    public DateTimeOffset Date { get; set; }
 
     public int CategoryId { get; set; }
 

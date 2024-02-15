@@ -30,6 +30,7 @@ public class BudgetAppRepository: IRepository
     {
         if (transaction != null)
         {
+            transaction.Date = transaction.Date.UtcDateTime;
             _context.Transactions.Add(transaction);
             _context.SaveChanges();
         }
@@ -69,6 +70,7 @@ public class BudgetAppRepository: IRepository
     {
         if (transaction != null)
         {
+            transaction.Date = transaction.Date.UtcDateTime;
             _context.Transactions.Update(transaction);
             _context.SaveChanges();
         }
