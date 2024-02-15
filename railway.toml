@@ -1,0 +1,7 @@
+[build]
+build = "dockerfile"
+dockerfilePath = "./kmakai.Budget/Dockerfile"
+
+[deploy]
+startCommand = "dotnet kmakai.Budget.dll"
+restartPolicy = "never"

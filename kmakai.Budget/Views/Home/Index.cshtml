@@ -45,7 +45,7 @@
                     @foreach (var transaction in Model.Transactions)
                     {
                         <tr>
-                            <td>@transaction.Date.ToShortDateString()</td>
+                            <td>@transaction.Date.ToString("MM/dd/yyyy")</td>
                             <td>@transaction.Name - @transaction.Category.Name</td>
                             <td class="@transaction.TransactionType.Name">@(@transaction.TransactionType.Id == 2 ? "-" : "+") $@transaction.Amount</td>
 
