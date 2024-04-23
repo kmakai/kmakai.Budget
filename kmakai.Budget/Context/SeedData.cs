@@ -10,7 +10,6 @@ public class SeedData
     {
         using var context = new BudgetContext(serviceProvider.GetRequiredService<DbContextOptions<BudgetContext>>());
 
-        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
         SeedCategories(context);
