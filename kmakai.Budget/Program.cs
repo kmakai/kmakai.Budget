@@ -8,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "postgresql://postgres:5g1b*Gc354egc-ECB-b3g1GEcc-2g-B4@viaduct.proxy.rlwy.net:21102/railway";
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    
+    // ?? "postgresql://postgres:5g1b*Gc354egc-ECB-b3g1GEcc-2g-B4@viaduct.proxy.rlwy.net:21102/railway";
 
 var databaseUri = new Uri(databaseUrl);
 
